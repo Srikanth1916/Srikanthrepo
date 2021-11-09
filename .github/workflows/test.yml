@@ -44,6 +44,8 @@ jobs:
          aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $ECR_URL
          aws ecr describe-repositories --region $AWS_REGION | grep -i "repositoryName" | awk '{print $2}' | tr -d "," | sed -e 's/^"//' -e 's/"$//' > ecr.txt
          sleep 5
+         cat ecr.txt
+         cat repo.txt
          chmod 777 shell.sh
          ./shell.sh
          sleep 10
