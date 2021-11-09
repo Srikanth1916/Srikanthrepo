@@ -2,7 +2,7 @@
 
 i=1
 while IFS= read -r line; do
-    declare lhh$((i++))="$line"
+    declare lhh"$((i++))"="$line"
 done <repo.txt
 
 
