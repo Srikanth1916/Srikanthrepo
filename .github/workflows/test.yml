@@ -8,9 +8,9 @@ jobs:
     name: 'facadapi process'
     runs-on: ubuntu-latest
     env:
-      	ECR_URL:  596298976885.dkr.ecr.ca-central-1.amazonaws.com
-	AWS_REGION: us-east-2
-	EKS_CLUSTERNAME: EKS-cluster
+      ECR_URL:  596298976885.dkr.ecr.ca-central-1.amazonaws.com
+      AWS_REGION: us-east-2
+      EKS_CLUSTERNAME: EKS-cluster
     defaults:
       run:
         shell: bash
