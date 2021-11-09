@@ -44,9 +44,10 @@ jobs:
          aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $ECR_URL
          aws ecr describe-repositories --region $AWS_REGION | grep -i "repositoryName" | awk '{print $2}' | tr -d "," | sed -e 's/^"//' -e 's/"$//' > ecr.txt
          sleep 5
-         apt-get install -y dos2unix
-         apt-get install aws-cli* -y
+         sudo apt-get install -y dos2unix
+         sudo apt-get install aws-cli* -y
          chmod 777 shell.sh
+         dos2unix shell.sh
          ./shell.sh
          sleep 10
          for i in `ls -d */ | sed  '/target/d' | tr -d '/'`; do docker push $ECR_URL/$i; done
