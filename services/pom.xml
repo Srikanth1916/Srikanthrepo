@@ -108,7 +108,7 @@
                         <configuration>../layers.xml</configuration>
                     </layers>
                     <image>
-                        <name>596298976885.dkr.ecr.ca-central-1.amazonaws.com/${project.artifactId}</name>
+                        <name>157506822563.dkr.ecr.us-east-2.amazonaws.com/${project.artifactId}</name>
                     </image>
                 </configuration>
             </plugin>
