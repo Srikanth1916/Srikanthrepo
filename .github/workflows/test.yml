@@ -34,7 +34,7 @@ jobs:
         cache: maven
 
     - name: Build the maven
-      run:  mvn clean install
+      run:  mvn clean install spring-boot:build-image
       
     - name: docker & ECR push  
       run: |
