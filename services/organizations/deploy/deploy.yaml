@@ -38,7 +38,7 @@ spec:
       serviceAccountName: skyhive
       containers:
         - name: organizations
-          image: 596298976885.dkr.ecr.us-east-1.amazonaws.com/organizations
+          image: 157506822563.dkr.ecr.us-east-2.amazonaws.com/organizations
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8080
