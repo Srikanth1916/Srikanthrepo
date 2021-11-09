@@ -1,0 +1,18 @@
+server:
+  port : 8090
+springdoc:
+  version: v2
+  api-docs:
+    path: /api-docs
+    enabled: true
+  swagger-ui:
+    enabled: true
+    services:
+      urls:
+        - url: http://localhost:8080/employees/api-docs.yaml
+          path: /employees
+          name: Employees Service
+        - url: http://localhost:9090/jobs/api-docs.yaml
+          path: /jobs
+          name: Jobs Service
+  show-actuator: false
