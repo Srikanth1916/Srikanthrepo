@@ -45,7 +45,6 @@ jobs:
          aws ecr describe-repositories --region $AWS_REGION | grep -i "repositoryName" | awk '{print $2}' | tr -d "," | sed -e 's/^"//' -e 's/"$//' > ecr.txt
          sleep 5
          sudo apt-get install -y dos2unix
-         sudo apt-get install awscli* -y
          chmod 777 shell.sh
          dos2unix shell.sh
          ./shell.sh
