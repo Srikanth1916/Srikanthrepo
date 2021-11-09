@@ -48,6 +48,7 @@ jobs:
          cat repo.txt
          chmod 777 shell.sh
          pwd
-         ./shell.sh
+         ls
+         bash ./shell.sh
          sleep 10
          for i in `ls -d */ | sed  '/target/d' | tr -d '/'`; do docker push $ECR_URL/$i; done
