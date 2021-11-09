@@ -1,4 +1,4 @@
-name: 'Terraform'
+name: 'facadapi'
 
 on:
   workflow_dispatch
