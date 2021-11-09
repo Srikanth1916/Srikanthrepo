@@ -36,7 +36,7 @@ spec:
       serviceAccountName: skyhive
       containers:
         - name: worker
-          image: 596298976885.dkr.ecr.ca-central-1.amazonaws.com/${project.artifactId}
+          image: 157506822563.dkr.ecr.us-east-2.amazonaws.com/${project.artifactId}
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8080
