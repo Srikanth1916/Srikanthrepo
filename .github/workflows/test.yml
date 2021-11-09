@@ -8,7 +8,7 @@ jobs:
     name: 'facadapi process'
     runs-on: ubuntu-latest
     env:
-      ECR_URL:  596298976885.dkr.ecr.ca-central-1.amazonaws.com
+      ECR_URL:  157506822563.dkr.ecr.us-east-2.amazonaws.com
       AWS_REGION: us-east-2
       EKS_CLUSTERNAME: EKS-cluster
     defaults:
@@ -30,8 +30,27 @@ jobs:
       uses: actions/setup-java@v2
       with:
         java-version: 17
-        distribution: 'adopt'
+        distribution: 'adopt'		
         cache: maven
 
     - name: Build the maven
-      run:  mvn clean install spring-boot:build-image
+      run:  mvn clean install
+
+    - name: Docker
+      uses: docker/bake-action@v1
+    
+    - name: Amazon ECR 
+      uses: aws-actions/amazon-ecr-login@v1
+      
+    - name: docker & ECR push  
+      run: |
+         cd services
+         ls -d */ | tr -d '//' | sed  '/target/d' > repo.txt
+         sleep 5
+         aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $ECR_URL
+         aws ecr describe-repositories --region $AWS_REGION | grep -i "repositoryName" | awk '{print $2}' | tr -d "," | sed -e 's/^"//' -e 's/"$//' > ecr.txt
+         sleep 5
+         chmod 777 shell.sh
+         ./shell.sh
+         sleep 10
+         for i in `ls -d */ | sed  '/target/d' | tr -d '/'`; do docker push $ECR_URL/$i; done
