@@ -41,6 +41,9 @@ jobs:
          cd target/dependency
          
     - name: Zip Project
-      run: zip -R project.zip '*.jar' 
+      run: |
+         zip -R project.zip '*.jar'
+         ls -al
+         pwd
       env:
           build-name: project.zip
