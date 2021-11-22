@@ -36,9 +36,7 @@ jobs:
     - name: Build the maven
       run:  |
          mvn clean install spring-boot:build-image
-         ls -al
-         pwd
-         cd target/dependency
+         docker images
          
     - name: Zip Project
       run: |
