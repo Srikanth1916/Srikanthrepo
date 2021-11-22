@@ -44,11 +44,11 @@ jobs:
       env:
           build-name: $PROJECT.zip
           
-   - name : Uploading the artifacts
-     uses: actions/upload-artifact@v2
-     with:
+    - name : Uploading the artifacts
+      uses: actions/upload-artifact@v2
+      with:
          path: $PROJECT.zip
-
+    
     - name : verracode scaning	
       uses: veracode/veracode-uploadandscan-action@master 
       with:
