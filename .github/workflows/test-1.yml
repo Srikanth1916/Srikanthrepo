@@ -11,7 +11,6 @@ jobs:
       ECR_URL:  157506822563.dkr.ecr.us-east-2.amazonaws.com
       AWS_REGION: us-east-2
       EKS_CLUSTERNAME: EKS-cluster
-      PROJECT: facadeapi
     defaults:
       run:
         shell: bash
@@ -40,21 +39,21 @@ jobs:
 
     - name: Zipping the project
       run: |
-         zip -R $PROJECT.zip '*.jar'
+         zip -R facadeapi.zip '*.jar'
       env:
           build-name: $PROJECT.zip
           
     - name : Uploading the artifacts
       uses: actions/upload-artifact@v2
       with:
-         path: $PROJECT.zip
+         path: facadeapi.zip
     
     - name : verracode scaning	
       uses: veracode/veracode-uploadandscan-action@master 
       with:
         appname: '${{ github.repository }}'
         version: '${{ github.run_id }}'
-        filepath: '$PROJECT.zip'
+        filepath: 'facadeapi.zip'
         vid: '${{ secrets.VERACODE_API_ID }}'
         vkey: '${{ secrets.VERACODE_API_KEY }}'
         scantimeout: 10
