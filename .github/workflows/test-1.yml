@@ -38,5 +38,5 @@ jobs:
          mvn clean install spring-boot:build-image
          ls -al
          pwd
-         cd target
+         cd target/dependency
          ls -al
