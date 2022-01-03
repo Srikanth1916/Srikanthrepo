@@ -11,15 +11,20 @@ jobs:
   testing:
     name: 'testing process'
     runs-on: ubuntu-latest
-    if: startsWith(github.ref, 'refs/tags')
     defaults:
       run:
         shell: bash
 
     steps:
+    - name: check tag
+      run : | 
+      if: startsWith(github.ref, 'refs/tags')
+          echo  "sucess"
+          fi    
+
     - name: git repo Checkout
       uses: actions/checkout@v2
-
+      
     - name: Setup Java JDK
       uses: actions/setup-java@v2
       with:
