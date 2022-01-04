@@ -8,19 +8,13 @@ on:
 jobs:
   testing:
     name: 'testing process'
+    if: ${{ github.ref == 'refs/heads/master' }}
     runs-on: ubuntu-latest
     defaults:
       run:
         shell: bash
 
-    steps:
-    - name: check tag
-      id: check-tag
-      run : | 
-       if [[ ${{ github.event.ref }} =~ ^refs/tags/master ]]; then
-       echo ""set-output name=match::true
-       fi
-          
+    steps:          
     - name: git repo Checkout
       uses: actions/checkout@v2
       
