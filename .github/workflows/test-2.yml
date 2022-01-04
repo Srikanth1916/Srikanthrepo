@@ -14,6 +14,9 @@ jobs:
         shell: bash
 
     steps:
+    - name: git repo Checkout
+      uses: actions/checkout@v2
+
     - name: checking whether the tags are valid or not
       run: |
        sudo apt-get install -y dos2unix
@@ -21,12 +24,11 @@ jobs:
        dos2unix shell.sh
        ./shell.sh
 
-    - name: git repo Checkout
-      uses: actions/checkout@v2
+
 
     - name: Setup Java JDK
       uses: actions/setup-java@v2
       with:
         java-version: 17
-        distribution: 'adopt'		
+        distribution: 'adopt'
         cache: maven
