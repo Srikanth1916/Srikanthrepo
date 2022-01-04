@@ -8,13 +8,17 @@ on:
 jobs:
   testing:
     name: 'testing process'
-    if: ${{ github.ref == 'refs/heads/master' }}
     runs-on: ubuntu-latest
     defaults:
       run:
         shell: bash
 
-    steps:          
+    steps:
+    - name: checking the master branch
+      if: github.ref == 'refs/heads/master'
+      run: |
+        echo "branch matched proceeding with the next step"
+     
     - name: git repo Checkout
       uses: actions/checkout@v2
       
