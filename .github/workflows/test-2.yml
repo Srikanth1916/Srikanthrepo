@@ -1,7 +1,6 @@
 name: 'tagging'
 
 on:
-  push:
   create:
     tags:
       - "v[0-9].[0-9]+.[0-9]+"
@@ -15,15 +14,21 @@ jobs:
         shell: bash
 
     steps:
-    - name: Check Tag
-      run: |
-        if [[ ${{ github.event.ref }} =~ ^refs/tags/v[0-9].[0-9]+.[0-9]+ ]]; then
-          echo ::set-output name=match::true
-        fi
-     
+    - uses: rickstaa/action-contains-tag@v1
+      id: contains_tag
+      with:
+          reference: "master"
+          tag: "Latest"
+    - run: |
+          if [[ ${{ steps.contains_tag.outputs.retval }} != 'true' ]]; then
+            echo "Branch/commit did contain the tag."
+          else
+            echo "Branch/commit did not contain the tag."
+          fi
+
     - name: git repo Checkout
       uses: actions/checkout@v2
-      
+
     - name: Setup Java JDK
       uses: actions/setup-java@v2
       with:
