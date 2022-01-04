@@ -1,8 +1,8 @@
 name: 'tagging'
 
 on:
-  create:
-    tags:
+  push:
+      - master
       - "v[0-9].[0-9]+.[0-9]+"
 
 jobs:
