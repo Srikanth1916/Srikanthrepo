@@ -20,7 +20,7 @@ jobs:
     - name: checking whether the tags are valid or not
       run: |
        sudo apt-get install -y dos2unix
-       sudo chmod 777 shell.sh
+       chmod 777 shell.sh
        dos2unix shell.sh
        ./shell.sh
 
