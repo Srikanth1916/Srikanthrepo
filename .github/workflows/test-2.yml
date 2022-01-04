@@ -20,10 +20,10 @@ jobs:
           reference: "master"
           tag: ${{ github.ref }}
     - run: |
-          if [[ ${{ steps.contains_tag.outputs.retval }} != 'true' ]]; then
-            echo "Branch/commit did contain the tag."
-          else
+          if [[ ${{ steps.contains_tag.outputs.retval }} = 'true' ]]; then
             echo "Branch/commit did not contain the tag."
+          else
+            echo "Branch/commit did  contain the tag."
           fi
 
     - name: git repo Checkout
