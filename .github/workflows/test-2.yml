@@ -2,8 +2,6 @@ name: 'tagging'
 
 on:
   push:
-    branches:
-    - stable
     tags:
       - "v[0-9].[0-9]+.[0-9]+"
 
@@ -21,12 +19,7 @@ jobs:
       run : | 
        if [[ ${{ github.event.ref }} =~ ^refs/tags/master ]]; then
        echo ""set-output name=match::true
-       fi    
-
-    - name: checking the tag status
-      if: steps.check-tag.outputs.match == 'true'
-      run: |
-          echo "Tag is a match"
+       fi
           
     - name: git repo Checkout
       uses: actions/checkout@v2
