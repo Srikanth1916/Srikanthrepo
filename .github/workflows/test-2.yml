@@ -19,7 +19,7 @@ jobs:
     - name: check tag
       id: check-tag
       run : | 
-       if [[ ${{ github.event.ref }} =~ ^refs/tags/master]]; then
+       if [[ ${{ github.event.ref }} =~ ^refs/tags/master ]]; then
        echo ""set-output name=match::true
        fi    
 
