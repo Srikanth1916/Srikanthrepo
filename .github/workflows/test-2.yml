@@ -18,7 +18,7 @@ jobs:
       id: contains_tag
       with:
           reference: "master"
-          tag: "Latest"
+          tag: ${{ github.ref }}
     - run: |
           if [[ ${{ steps.contains_tag.outputs.retval }} != 'true' ]]; then
             echo "Branch/commit did contain the tag."
