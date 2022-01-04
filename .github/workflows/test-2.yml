@@ -2,8 +2,8 @@ name: 'tagging'
 
 on:
   push:
-    tags:
-      - "v[0-9].[0-9]+.[0-9]+"
+     branches:
+      - master
 
 jobs:
   testing:
@@ -14,10 +14,11 @@ jobs:
         shell: bash
 
     steps:
-    - name: checking the master branch
-      if: github.ref == 'refs/heads/master'
+    - name: Check Tag
       run: |
-        echo "branch matched proceeding with the next step"
+        if [[ ${{ github.event.ref }} =~ ^refs/tags/v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+          echo ::set-output name=match::true
+        fi
      
     - name: git repo Checkout
       uses: actions/checkout@v2
