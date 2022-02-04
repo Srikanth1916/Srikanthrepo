@@ -48,12 +48,12 @@ jobs:
       with:
          path: facadeapi.zip
     
-    - name : verracode scaning	
-      uses: veracode/veracode-uploadandscan-action@master 
-      with:
-        appname: '${{ github.repository }}'
-        version: '${{ github.run_id }}'
-        filepath: 'facadeapi.zip'
-        vid: '${{ secrets.VERACODE_API_ID }}'
-        vkey: '${{ secrets.VERACODE_API_KEY }}'
-        scantimeout: 10
+   # - name : verracode scaning	
+   #  uses: veracode/veracode-uploadandscan-action@master 
+   #   with:
+   #     appname: '${{ github.repository }}'
+   #     version: '${{ github.run_id }}'
+   #    filepath: 'facadeapi.zip'
+   #     vid: '${{ secrets.VERACODE_API_ID }}'
+   #     vkey: '${{ secrets.VERACODE_API_KEY }}'
+   #     scantimeout: 10
