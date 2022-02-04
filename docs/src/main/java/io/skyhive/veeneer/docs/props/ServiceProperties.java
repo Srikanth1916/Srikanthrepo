@@ -1,11 +1,9 @@
 package io.skyhive.veeneer.docs.props;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.Map;
 
 @Component
 @ConfigurationProperties(prefix = "springdoc.swagger-ui.services")
@@ -20,7 +18,7 @@ public class ServiceProperties {
         this.urls = urls;
     }
 
-    public static class Service{
+    public static class Service {
         private String url;
         private String path;
         private String name;

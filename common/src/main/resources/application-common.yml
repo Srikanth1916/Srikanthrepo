@@ -1,0 +1,63 @@
+spring:
+  profiles:
+    default: prod
+  redis:
+    database: 0
+    host: localhost
+    port: 6379
+    timeout: 3600
+  datasource:
+    hikari:
+      connection-timeout: 20000
+      maximumPoolSize: 5
+    url: jdbc:postgresql://lhh.cc1m4ag9m6ii.us-east-1.rds.amazonaws.com:5432/postgres
+    username: postgres
+    password: SFRUVzJOZPJPSZti1jJm
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: true
+    database-platform: org.hibernate.dialect.PostgreSQL10Dialect
+    properties:
+      hibernate:
+        temp.use_jdbc_metadata_defaults: false
+
+  jackson:
+    serialization:
+      FAIL_ON_EMPTY_BEANS: false
+  cache:
+    redis:
+      time-to-live: 3600
+  data:
+    mongodb:
+      uri: mongodb://127.0.0.1:27017/
+      database: SkyHiveV3
+mongodb:
+  uri: mongodb://127.0.0.1:27017/
+  database: DemoA
+management:
+  endpoints:
+    enabled-by-default: false
+  endpoint:
+    info:
+      enabled: true
+    health:
+      enabled: true
+springdoc:
+  version: v2
+  api-docs:
+    path: /api-docs
+    enabled: true
+  swagger-ui:
+    enabled: true
+  show-actuator: false
+
+enterprise:
+  api:
+    url: https://demo-acn.skyhive.io
+
+logging:
+  level:
+    org:
+      hibernate:
+        type: trace

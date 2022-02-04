@@ -1,0 +1,86 @@
+# Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: location
+  labels:
+    app: location
+    service: location
+spec:
+  ports:
+    - port: 8080
+      name: http
+  selector:
+    app: location
+---
+# Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: location
+  labels:
+    app: location
+    version: v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: location
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: location
+        version: v1
+      annotations:
+        sidecar.istio.io/rewriteAppHTTPProbers: "true"
+    spec:
+      serviceAccountName: skyhive
+      hostAliases:
+        - ip: 15.222.74.209
+          hostnames:
+            - dev-e.skyhive.io
+      containers:
+        - name: location
+          image: 596298976885.dkr.ecr.ca-central-1.amazonaws.com/location:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+          env:
+            - name: JAVA_OPTIONS
+              value: "-Dspring.profiles.active=prod"
+          #          readinessProbe:
+          #            httpGet:
+          #              path: /actuator/health/readiness
+          #              port: 8080
+          #            initialDelaySeconds: 30
+          #            periodSeconds: 10
+          #            timeoutSeconds: 3
+          #            failureThreshold: 1
+          #          livenessProbe:
+          #            httpGet:
+          #              path: /actuator/health/liveness
+          #              port: 8080
+          #            initialDelaySeconds: 60
+          #            periodSeconds: 10
+          #            timeoutSeconds: 3
+          #            failureThreshold: 1
+          securityContext:
+            runAsUser: 1000
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: location
+spec:
+  ingressClassName: kong
+  rules:
+    - http:
+        paths:
+          - path: /location/
+            pathType: Prefix
+            backend:
+              service:
+                name: location
+                port:
+                  number: 8080

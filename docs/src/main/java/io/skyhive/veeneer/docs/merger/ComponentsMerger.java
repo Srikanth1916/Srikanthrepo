@@ -12,16 +12,16 @@ import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 
 public class ComponentsMerger {
-    private Components components = new Components();
-    private MapMerger<Schema> schemasMerger = new MapMerger();
-    private MapMerger<ApiResponse> responsesMerger = new MapMerger<ApiResponse>();
-    private MapMerger<Parameter> parametersMerger = new MapMerger<Parameter>();
-    private MapMerger<Example> examplesMerger = new MapMerger<Example>();
-    private MapMerger<RequestBody> requestBodiesMerger = new MapMerger<RequestBody>();
-    private MapMerger<Header> headersMerger = new MapMerger<Header>();
-    private MapMerger<SecurityScheme> securitySchemasMerger = new MapMerger<SecurityScheme>();
-    private MapMerger<Link> linksMerger = new MapMerger<Link>();
-    private MapMerger<Callback> callbacksMerger = new MapMerger<Callback>();
+    private final Components components = new Components();
+    private final MapMerger<Schema> schemasMerger = new MapMerger();
+    private final MapMerger<ApiResponse> responsesMerger = new MapMerger<ApiResponse>();
+    private final MapMerger<Parameter> parametersMerger = new MapMerger<Parameter>();
+    private final MapMerger<Example> examplesMerger = new MapMerger<Example>();
+    private final MapMerger<RequestBody> requestBodiesMerger = new MapMerger<RequestBody>();
+    private final MapMerger<Header> headersMerger = new MapMerger<Header>();
+    private final MapMerger<SecurityScheme> securitySchemasMerger = new MapMerger<SecurityScheme>();
+    private final MapMerger<Link> linksMerger = new MapMerger<Link>();
+    private final MapMerger<Callback> callbacksMerger = new MapMerger<Callback>();
 
     public void merge(Components from) {
         if (from == null) return;

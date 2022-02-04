@@ -1,0 +1,68 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: keycloak
+  annotations:
+    service.beta.kubernetes.io/aws-load-balancer-backend-protocol: http
+    service.beta.kubernetes.io/aws-load-balancer-ssl-cert: arn:aws:acm:ca-central-1:596298976885:certificate/3c4256a1-973f-4af1-8fed-24b845a2f755
+    service.beta.kubernetes.io/aws-load-balancer-ssl-ports: "https"
+  labels:
+    app: keycloak
+    service: keycloak
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 80
+      targetPort: 8080
+      name: http
+    - port: 443
+      targetPort: 8080
+      name: https
+  selector:
+    app: keycloak
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: keycloak
+  labels:
+    app: keycloak
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: keycloak
+  template:
+    metadata:
+      labels:
+        app: keycloak
+    spec:
+      containers:
+        - name: keycloak
+          image: jboss/keycloak
+          env:
+            - name: KEYCLOAK_USER
+              value: "skyhive"
+            - name: KEYCLOAK_PASSWORD
+              value: "Burat1n0"
+            - name: PROXY_ADDRESS_FORWARDING
+              value: "true"
+            - name: DB_ADDR
+              value: lhh.cc1m4ag9m6ii.us-east-1.rds.amazonaws.com
+            - name: DB_DATABASE
+              value: postgres
+            - name: DB_USER
+              value: postgres
+            - name: DB_PASSWORD
+              value: SFRUVzJOZPJPSZti1jJm
+            - name: DB_SCHEMA
+              value: public
+            - name: DB_VENDOR
+              value: POSTGRES
+          ports:
+            - name: http
+              containerPort: 8080
+          readinessProbe:
+            httpGet:
+              path: /auth/realms/master
+              port: 8080

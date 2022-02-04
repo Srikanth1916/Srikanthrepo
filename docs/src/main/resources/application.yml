@@ -1,5 +1,5 @@
 server:
-  port : 8090
+  port: 8090
 springdoc:
   version: v2
   api-docs:
@@ -15,4 +15,11 @@ springdoc:
         - url: http://localhost:9090/jobs/api-docs.yaml
           path: /jobs
           name: Jobs Service
+        - url: http://localhost:8080/trainings/api-docs.yaml
+          path: /trainings
+          name: Trainings Service
+        - url: http://localhost:8080/careerpath/api-docs.yaml
+          path: /careerpath
+          name: Career Path Service
+        
   show-actuator: false

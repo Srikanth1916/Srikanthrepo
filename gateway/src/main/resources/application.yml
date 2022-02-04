@@ -1,0 +1,99 @@
+management:
+  endpoints:
+    enabled-by-default: false
+  endpoint:
+    info:
+      enabled: true
+    health:
+      enabled: true
+
+enterprise:
+  api:
+    url: https://dev-e.skyhive.io
+
+logging:
+  level:
+    org.hibernate.type: trace
+    org.springframework.cloud.gateway: DEBUG
+    org.springframework.security: DEBUG
+    reactor.netty.http.client: DEBUG
+spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: https://api-auth.skyhive.ai/auth/realms/lhh
+          jwk-set-uri: https://api-auth.skyhive.ai/auth/realms/lhh/protocol/openid-connect/certs
+
+  jackson:
+    serialization:
+      FAIL_ON_EMPTY_BEANS: false
+  application:
+    name: gateway
+  cloud:
+    gateway:
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins: "*"
+            allowedMethods: "*"
+            allowedHeaders: "*"
+      routes:
+        - id: employees
+          uri: lb://employees
+          predicates:
+            - Path=/employees/**
+          filters:
+            - name: AddEnterpriseHeader
+            - RewritePath=/employees/(?<path>.*), /$\{path}
+            - AddRequestHeader=X-Forwarded-Prefix, /employees
+        - id: jobs
+          uri: lb://jobs
+          predicates:
+            - Path=/jobs/**
+          filters:
+            - name: AddEnterpriseHeader
+            - RewritePath=/jobs/(?<path>.*), /$\{path}
+            - AddRequestHeader=X-Forwarded-Prefix, /jobs
+        - id: trainings
+          uri: lb://trainings
+          predicates:
+            - Path=/trainings/**
+          filters:
+            - RewritePath=/trainings/(?<path>.*), /$\{path}
+            - AddRequestHeader=X-Forwarded-Prefix, /trainings
+        - id: careerpath
+          uri: lb://careerpath
+          predicates:
+            - Path=/careerpath/**
+          filters:
+            - RewritePath=/careerpath/(?<path>.*), /$\{path}
+            - AddRequestHeader=X-Forwarded-Prefix, /careerpath
+        - id: parsers
+          uri: lb://parsers
+          predicates:
+            - Path=/parsers/**
+          filters:
+            - RewritePath=/parsers/(?<path>.*), /$\{path}
+            - AddRequestHeader=X-Forwarded-Prefix, /parsers
+        - id: typeahead
+          uri: lb://typeahead
+          predicates:
+            - Path=/typeahead/**
+          filters:
+            - RewritePath=/typeahead/(?<path>.*), /$\{path}
+            - AddRequestHeader=X-Forwarded-Prefix, /typeahead
+        - id: location
+          uri: lb://location
+          predicates:
+            - Path=/location/**
+          filters:
+            - RewritePath=/location(?<path>.*), /$\{path}
+            - AddRequestHeader=X-Forwarded-Prefix, /location
+      default-filters:
+        - TokenRelay
+  main:
+    web-application-type: reactive
+    allow-bean-definition-overriding: true
+
+

@@ -1,0 +1,76 @@
+# Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: docs
+  annotations:
+    service.beta.kubernetes.io/aws-load-balancer-backend-protocol: http
+    service.beta.kubernetes.io/aws-load-balancer-ssl-cert: arn:aws:acm:ca-central-1:596298976885:certificate/3c4256a1-973f-4af1-8fed-24b845a2f755
+    service.beta.kubernetes.io/aws-load-balancer-ssl-ports: "https"
+    service.beta.kubernetes.io/aws-load-balancer-connection-idle-timeout: "120"
+  labels:
+    app: docs
+    service: docs
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 80
+      targetPort: 3000
+      name: http
+    - port: 443
+      targetPort: 3000
+      name: https
+  selector:
+    app: docs
+---
+# Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: docs
+  labels:
+    app: docs
+    version: v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: docs
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: docs
+        version: v1
+      annotations:
+        sidecar.istio.io/rewriteAppHTTPProbers: "true"
+    spec:
+      serviceAccountName: skyhive
+      containers:
+        - name: docs
+          image: 596298976885.dkr.ecr.ca-central-1.amazonaws.com/docs:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3000
+          env:
+            - name: URLS
+              value: "[{url: 'http://jobs.skyhive.svc.cluster.local/api-docs.yaml', name: 'Jobs'},{url: 'http://employees.skyhive.svc.cluster.local/api-docs.yaml', name: 'Employees'}]"
+          securityContext:
+            runAsUser: 1000
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: docs
+spec:
+  ingressClassName: kong
+  rules:
+    - http:
+        paths:
+          - path: /docs/
+            pathType: Prefix
+            backend:
+              service:
+                name: docs
+                port:
+                  number: 3000

@@ -1,0 +1,86 @@
+# Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: trainings
+  labels:
+    app: trainings
+    service: trainings
+spec:
+  ports:
+    - port: 8080
+      name: http
+  selector:
+    app: trainings
+---
+# Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: trainings
+  labels:
+    app: trainings
+    version: v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: trainings
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: trainings
+        version: v1
+      annotations:
+        sidecar.istio.io/rewriteAppHTTPProbers: "true"
+    spec:
+      serviceAccountName: skyhive
+      hostAliases:
+        - ip: 15.222.74.209
+          hostnames:
+            - dev-e.skyhive.io
+      containers:
+        - name: trainings
+          image: 596298976885.dkr.ecr.us-east-1.amazonaws.com/trainings:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+          env:
+            - name: JAVA_OPTIONS
+              value: "-Dspring.profiles.active=prod"
+          #          readinessProbe:
+          #            httpGet:
+          #              path: /actuator/health/readiness
+          #              port: 8080
+          #            initialDelaySeconds: 30
+          #            periodSeconds: 10
+          #            timeoutSeconds: 3
+          #            failureThreshold: 1
+          #          livenessProbe:
+          #            httpGet:
+          #              path: /actuator/health/liveness
+          #              port: 8080
+          #            initialDelaySeconds: 60
+          #            periodSeconds: 10
+          #            timeoutSeconds: 3
+          #            failureThreshold: 1
+          securityContext:
+            runAsUser: 1000
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: trainings
+spec:
+  ingressClassName: kong
+  rules:
+    - http:
+        paths:
+          - path: /trainings/
+            pathType: Prefix
+            backend:
+              service:
+                name: trainings
+                port:
+                  number: 8080
