@@ -1,4 +1,4 @@
-name: 'facadapi-1'
+name: 'veracode'
 
 on:
   workflow_dispatch
