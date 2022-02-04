@@ -1,0 +1,59 @@
+name: 'facadapi-1'
+
+on:
+  workflow_dispatch
+
+jobs:
+  facadapi:
+    name: 'facadapi process'
+    runs-on: ubuntu-latest
+    env:
+      ECR_URL:  157506822563.dkr.ecr.us-east-2.amazonaws.com
+      AWS_REGION: us-east-2
+      EKS_CLUSTERNAME: EKS-cluster
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+    - name: git repo Checkout
+      uses: actions/checkout@v2
+      
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: us-east-2
+
+    - name: Setup Java JDK
+      uses: actions/setup-java@v2
+      with:
+        java-version: 17
+        distribution: 'adopt'		
+        cache: maven
+
+    - name: Build the maven
+      run:  |
+         mvn clean install spring-boot:build-image
+
+    - name: Zipping the project
+      run: |
+         zip -R facadeapi.zip '*.jar'
+      env:
+          build-name: $PROJECT.zip
+          
+    - name : Uploading the artifacts
+      uses: actions/upload-artifact@v2
+      with:
+         path: facadeapi.zip
+    
+   # - name : verracode scaning	
+   #  uses: veracode/veracode-uploadandscan-action@master 
+   #   with:
+   #     appname: '${{ github.repository }}'
+   #     version: '${{ github.run_id }}'
+   #    filepath: 'facadeapi.zip'
+   #     vid: '${{ secrets.VERACODE_API_ID }}'
+   #     vkey: '${{ secrets.VERACODE_API_KEY }}'
+   #     scantimeout: 10
