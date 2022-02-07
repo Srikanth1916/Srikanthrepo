@@ -6,7 +6,7 @@ on:
 jobs:
   facadapi:
     name: 'facadapi process'
-    runs-on: test-1
+    runs-on: ubuntu-test
     env:
       ECR_URL:  157506822563.dkr.ecr.us-east-2.amazonaws.com
       AWS_REGION: us-east-2
@@ -26,6 +26,12 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: us-east-2
 
+    - name: Setup Java JDK
+      uses: actions/setup-java@v2
+      with:
+        java-version: 17
+        distribution: 'adopt'		
+        cache: maven
     - name: finding out the version
       run: |
          java --version
@@ -49,7 +55,7 @@ jobs:
     
   pipeline-scan:
     needs: facadapi
-    runs-on: test-1
+    runs-on: ubuntu-test
     container: 
       image: veracode/pipeline-scan:latest
       options: --user root # our normal luser doesn't have privs to write to github directories
@@ -76,7 +82,7 @@ jobs:
   # Convert pipeline scan output to SARIF format  
   process-results:
     needs: pipeline-scan
-    runs-on: test-1
+    runs-on: ubuntu-test
     steps:
 
     - name: Retrieve results
