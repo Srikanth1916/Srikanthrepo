@@ -30,6 +30,7 @@ jobs:
       run: |
          java --version
          mvn --version
+         docker --version
     - name: Build the maven
       run:  |
          mvn clean install spring-boot:build-image
