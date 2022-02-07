@@ -39,7 +39,7 @@ jobs:
 
     - name: Zipping the project
       run: |
-         zip -R facadeapi.zip 'jackson-module-parameter-names-2.12.4.jar'
+         zip -R facadeapi.zip '*.jar'
       env:
           build-name: $PROJECT.zip
           
