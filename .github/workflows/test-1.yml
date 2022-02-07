@@ -6,7 +6,7 @@ on:
 jobs:
   facadapi:
     name: 'facadapi process'
-    runs-on: ubuntu-latest
+    runs-on: test
     env:
       ECR_URL:  157506822563.dkr.ecr.us-east-2.amazonaws.com
       AWS_REGION: us-east-2
@@ -51,7 +51,7 @@ jobs:
     
   pipeline-scan:
     needs: facadapi
-    runs-on: ubuntu-latest
+    runs-on: test
     container: 
       image: veracode/pipeline-scan:latest
       options: --user root # our normal luser doesn't have privs to write to github directories
@@ -78,7 +78,7 @@ jobs:
   # Convert pipeline scan output to SARIF format  
   process-results:
     needs: pipeline-scan
-    runs-on: ubuntu-latest
+    runs-on: test
     steps:
 
     - name: Retrieve results
