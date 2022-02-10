@@ -5,7 +5,7 @@ on:
 jobs:
   DAST:
     name: 'DAST process'
-    runs-on: test1
+    runs-on: ubuntu-latest
     defaults:
       run:
         shell: bash
