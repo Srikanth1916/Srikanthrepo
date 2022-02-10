@@ -18,7 +18,7 @@ jobs:
       uses: zaproxy/action-full-scan@v0.3.0
       with:
          docker_name: 'owasp/zap2docker-stable'
-         target: 'https://www.zaproxy.org/'
+         target: 'https://www.google.com/'
          token: ${{ secrets.GITHUB_TOKEN }}
 
     - name: GitHub Workflow artifacts
