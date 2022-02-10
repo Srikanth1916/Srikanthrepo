@@ -1,4 +1,4 @@
-name: 'facadapi-2'
+name: 'facadapi-1'
 
 on:
   workflow_dispatch
