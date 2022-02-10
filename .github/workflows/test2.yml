@@ -1,4 +1,4 @@
-name: 'facadapi-1'
+name: 'DAST'
 
 on:
   workflow_dispatch
