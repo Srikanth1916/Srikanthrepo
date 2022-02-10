@@ -21,7 +21,7 @@ jobs:
     - name: Nuclei - DAST Scan
       uses: projectdiscovery/nuclei-action@main
       with:
-          target: https://www.google.com/
+          target: https://www.terraform.io/
 
     - name: GitHub Workflow artifacts
       uses: actions/upload-artifact@v2
