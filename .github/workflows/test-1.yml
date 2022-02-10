@@ -19,6 +19,7 @@ jobs:
       with:
          docker_name: 'owasp/zap2docker-stable'
          target: 'https://www.zaproxy.org/'
+         token: ${{ secrets.GITHUB_TOKEN }}
 
     - name: GitHub Workflow artifacts
       uses: actions/upload-artifact@v2
