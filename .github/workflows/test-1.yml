@@ -15,9 +15,9 @@ jobs:
       uses: actions/checkout@v2
     
     - name: ZAP Scan
-      uses: zaproxy/action-full-scan@v0.3.0
+      uses: zaproxy/action-full-scan@v0.2.0
       with:
-         docker_name: 'owasp/zap2docker-stable:2.8.0'
+         docker_name: 'owasp/zap2docker-stable'
          target: 'https://www.google.com/'
          token: ${{ secrets.GITHUB_TOKEN }}
          rules_file_name: '.zap/rules.tsv'
