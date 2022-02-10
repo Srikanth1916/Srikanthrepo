@@ -17,7 +17,7 @@ jobs:
     - name: ZAP Scan
       uses: zaproxy/action-full-scan@v0.3.0
       with:
-         docker_name: 'owasp/zap2docker-stable'
+         docker_name: 'owasp/zap2docker-stable:2.8.0'
          target: 'https://www.google.com/'
          token: ${{ secrets.GITHUB_TOKEN }}
          rules_file_name: '.zap/rules.tsv'
