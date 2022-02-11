@@ -1,15 +1,10 @@
-name: 'tagging'
-
+name: 'DAST'
 on:
-  push:
-    branches:
-      - master
-    tags:  
-      - "v[0-9].[0-9]+.[0-9]+"
+ workflow_dispatch
 
 jobs:
-  testing:
-    name: 'testing process'
+  DAST:
+    name: 'DAST process'
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -18,19 +13,10 @@ jobs:
     steps:
     - name: git repo Checkout
       uses: actions/checkout@v2
-
-    - name: checking whether the tags are valid or not
-      run: |
-       sudo apt-get install -y dos2unix
-       chmod 777 shell.sh
-       dos2unix shell.sh
-       ./shell.sh
-
-
-
-    - name: Setup Java JDK
-      uses: actions/setup-java@v2
+    
+    - name: ZAP Scan
+      uses: zaproxy/action-full-scan@v0.2.0
       with:
-        java-version: 17
-        distribution: 'adopt'
-        cache: maven
+         docker_name: 'owasp/zap2docker-stable'
+         target: 'https://demo-e.skyhive.io/'
+         token: ${{ secrets.GITHUB_TOKEN }}
