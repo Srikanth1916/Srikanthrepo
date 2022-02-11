@@ -1,11 +1,16 @@
-name: 'DAST'
+name: 'facadapi-1'
+
 on:
- workflow_dispatch
+  workflow_dispatch
 
 jobs:
-  DAST:
-    name: 'DAST process'
-    runs-on: ubuntu-latest
+  facadapi:
+    name: 'facadapi process'
+    runs-on: test1
+    env:
+      ECR_URL:  157506822563.dkr.ecr.us-east-2.amazonaws.com
+      AWS_REGION: us-east-2
+      EKS_CLUSTERNAME: EKS-cluster
     defaults:
       run:
         shell: bash
@@ -14,9 +19,22 @@ jobs:
     - name: git repo Checkout
       uses: actions/checkout@v2
     
-    - name: ZAP Scan
-      uses: zaproxy/action-full-scan@v0.2.0
+    - name: setup of go
+      uses: actions/setup-go@v2
       with:
-         docker_name: 'owasp/zap2docker-stable'
-         target: 'https://demo-e.skyhive.io/'
-         token: ${{ secrets.GITHUB_TOKEN }}
+          go-version: 1.17
+    - name: Nuclei - DAST Scan
+      uses: projectdiscovery/nuclei-action@main
+      with:
+          target: 'https://demo-e.skyhive.io/'
+
+    - name: GitHub Workflow artifacts
+      uses: actions/upload-artifact@v2
+      with:
+          name: nuclei.log
+          path: nuclei.log
+
+    - name: GitHub Security Dashboard Alerts update
+      uses: github/codeql-action/upload-sarif@v1
+      with:
+          sarif_file: nuclei.sarif
