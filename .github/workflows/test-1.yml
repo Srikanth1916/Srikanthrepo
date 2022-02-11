@@ -20,14 +20,3 @@ jobs:
          docker_name: 'owasp/zap2docker-stable'
          target: 'https://demo-e.skyhive.io/'
          token: ${{ secrets.GITHUB_TOKEN }}
-
-    - name: GitHub Workflow artifacts
-      uses: actions/upload-artifact@v2
-      with:
-          name: ZAP.log
-          path: ZAP.log
-
-    - name: GitHub Security Dashboard Alerts update
-      uses: github/codeql-action/upload-sarif@v1
-      with:
-          sarif_file: ZAP.sarif
