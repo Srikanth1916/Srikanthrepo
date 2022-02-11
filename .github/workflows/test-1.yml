@@ -6,7 +6,7 @@ on:
 jobs:
   facadapi:
     name: 'facadapi process'
-    runs-on: test1
+    runs-on: ubuntu-latest
     env:
       ECR_URL:  157506822563.dkr.ecr.us-east-2.amazonaws.com
       AWS_REGION: us-east-2
