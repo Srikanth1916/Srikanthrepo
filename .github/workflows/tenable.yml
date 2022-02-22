@@ -14,12 +14,12 @@ jobs:
     - name: git repo Checkout
       uses: actions/checkout@v2
     
-      - name: Runs the container security scan
-        uses: tenable/container-security-action@v0
-        id: consec
-        with:
-          repo_name: 157506822563.dkr.ecr.us-east-2.amazonaws.com/demo
-          tag_name: latest
-        env:
+    - name: Runs the container security scan
+      uses: tenable/container-security-action@v0
+      id: consec
+      with:
+         repo_name: 157506822563.dkr.ecr.us-east-2.amazonaws.com/demo
+         tag_name: latest
+      env:
           ACCESS_KEY: ${{ secrets.ACCESS_KEY }}
           SECRET_KEY: ${{ secrets.SECRET_KEY }}
