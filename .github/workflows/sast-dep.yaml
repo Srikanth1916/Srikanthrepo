@@ -1,0 +1,19 @@
+name: 'sast'
+
+on:
+  workflow_dispatch
+
+jobs:
+  sast:
+    name: 'sast process'
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+      - name: Self dep-scan
+        uses: AppThreat/dep-scan-action@master
+        env:
+          VDB_HOME: ${{ github.workspace }}/db
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
