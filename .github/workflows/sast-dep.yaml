@@ -1,4 +1,4 @@
-name: 'sast'
+name: 'sast-dep'
 
 on:
   workflow_dispatch
