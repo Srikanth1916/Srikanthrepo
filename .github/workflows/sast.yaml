@@ -6,7 +6,7 @@ on:
 jobs:
   sast:
     name: 'sast process'
-    runs-on: ubuntu
+    runs-on: ubuntu-latest
     defaults:
       run:
         shell: bash
