@@ -13,12 +13,4 @@ jobs:
 
     steps:
     - name: Self sast-scan
-      uses: AppThreat/sast-scan-action@v1.0.0
-      with:
-          output: reports
-          type: java
-    - name: Upload scan reports
-      uses: actions/upload-artifact@v1.0.0
-      with:
-         name: sast-scan-reports
-         path: reports
+      run: echo "$VERACODE_API_ID"
